@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { validateFields } = require('../middlewares/validate-fields');
-const { isValidateRol, isExistsEmail } = require('../helpers/db-validator');
+const { isValidateRol, isExistsEmail, isExistsUserForId } = require('../helpers/db-validator');
 
 const { usuariosGet,
         usuariosPut,
@@ -15,7 +15,12 @@ const router = Router();
 router.get('/', usuariosGet);
 
 //  * se agrega los dos puntos para que sea dinamico y se le agrega el nombre
-router.put('/:id', usuariosPut);
+router.put('/:id', [
+    check('id','No es un ID valido').isMongoId(),
+    check('id').custom( isExistsUserForId ),
+    check('rol').custom( isValidateRol ),
+    validateFields
+],usuariosPut);
 
 router.post('/', [
     check('name').notEmpty().withMessage('EL nombre es obligatorio'),
@@ -27,7 +32,11 @@ router.post('/', [
     validateFields
 ],usuariosPost);
 
-router.delete('/', usuariosDelete);
+router.delete('/:id', [
+    check('id','No es un ID valido').isMongoId(),
+    check('id').custom( isExistsUserForId ),
+    validateFields
+],usuariosDelete);
 
 router.patch('/', usuariosPatch);
 
