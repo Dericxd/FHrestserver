@@ -7,9 +7,9 @@ services:
     volumes:
       - ./mongo:/data/db
     ports: 
-      - "27017:27017"
+      - 27017:27017
     environment:
-      - MONGODB_DATABASE: ${MONGODB_DATABASE}
-  volumes:
-    reserva_club:
-      external: true
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+volumes:
+  reserva_club: 
+    external: true
