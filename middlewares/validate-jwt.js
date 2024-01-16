@@ -13,6 +13,7 @@ const validateJWT = async( req, res = response, next ) => {
         });
     }
 
+    
     try {
 
         const { uid } = jwt.verify( token, process.env.SECRETORPRIVATEKEY );
