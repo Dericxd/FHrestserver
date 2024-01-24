@@ -68,6 +68,7 @@ const googleSignIn = async( req, res = response ) => {
             const data = {
                 name,
                 email,
+                rol: 'USER_ROLE',
                 password: "123456789",  //? temporal para poder ingresar
                 img,
                 google: true
@@ -84,7 +85,8 @@ const googleSignIn = async( req, res = response ) => {
             });
         }
 
-        const token = await generateJWT( usuario.id );
+        //? Generar el JWT
+        const token = await generateJWT( user.id );
                 
         res.json({
             user,
@@ -92,6 +94,7 @@ const googleSignIn = async( req, res = response ) => {
         });
         
     } catch (error) {
+        console.warn("🚀 ~ googleSignIn ~ error:", error)
         res.status(400).json({
             ok: false,
             msg: 'El token de google no se pudo verificar '

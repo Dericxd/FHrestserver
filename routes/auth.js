@@ -14,7 +14,7 @@ router.post('/login',[
 ], login)
 
 router.post('/google',[
-    check('id_token', 'id_token es necesario').notEmpty(),
+    check('id_token','id_token es necesario').not().isEmpty(),
     validateFields
 ], googleSignIn)
 
